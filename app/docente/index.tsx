@@ -1,170 +1,265 @@
-import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from 'react-native';
-export default function Index() {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
+export default function LoginScreen() {
+  const [selectedProfile, setSelectedProfile] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={styles.container}>
-      {/* LOGO */}
-      <View style={styles.logoContainer}>
-        <Text style={styles.logoS}>S</Text>
-        <Text style={styles.logoF}>F</Text>
-      </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Logo */}
+      <Text style={styles.logo}>
+        S<Text style={styles.logoSub}>F</Text>
+      </Text>
 
-      <Text style={styles.welcomeTitle}>Que bom ter você aqui!</Text>
-      <Text style={styles.welcomeSubtitle}>
+      {/* Saudação */}
+      <Text style={styles.welcome}>Que bom ter você aqui!</Text>
+      <Text style={styles.subtext}>
         Conecte-se e otimize sua gestão de estoque com o STOCK FLOW!
       </Text>
 
-      {/* FORM */}
+      {/* Seleção de perfil */}
+      <Text style={styles.label}>Informe seu perfil:</Text>
+      <View style={styles.profileContainer}>
+        <TouchableOpacity
+          style={[
+            styles.profileButton,
+            selectedProfile === "Docente" && styles.profileSelected,
+          ]}
+          onPress={() => setSelectedProfile("Docente")}
+        >
+          <Text
+            style={[
+              styles.profileText,
+              selectedProfile === "Docente" && styles.profileTextSelected,
+            ]}
+          >
+            Docente
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.profileButton,
+            selectedProfile === "Almoxarifado" && styles.profileSelected,
+          ]}
+          onPress={() => setSelectedProfile("Almoxarifado")}
+        >
+          <Text
+            style={[
+              styles.profileText,
+              selectedProfile === "Almoxarifado" && styles.profileTextSelected,
+            ]}
+          >
+            Almoxarifado
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Campos de login */}
       <Text style={styles.label}>Login</Text>
-      <TextInput placeholder="CPF ou e-mail" style={styles.input} />
+      <TextInput style={styles.input} placeholder="CPF ou e-mail" />
 
-      <TextInput
-        placeholder="Senha"
-        secureTextEntry={!showPassword}
-        style={styles.input}
-      />
-
-      <TouchableOpacity
-        style={styles.eyeButton}
-        onPress={() => setShowPassword(!showPassword)}
-      >
-        <Ionicons
-          name={showPassword ? 'eye-off' : 'eye'}
-          size={20}
-          color="#000"
+      <View style={styles.passwordContainer}>
+        <TextInput
+          style={styles.inputPassword}
+          placeholder="Senha"
+          secureTextEntry={!showPassword}
         />
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setShowPassword(!showPassword)}
+          style={styles.eyeButton}
+        >
+          <Ionicons
+            name={showPassword ? "eye-off-outline" : "eye-outline"}
+            size={22}
+            color="#555"
+          />
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity>
-        <Text style={styles.forgotPassword}>Esqueci minha senha</Text>
+        <Text style={styles.forgotText}>Esqueci minha senha</Text>
       </TouchableOpacity>
 
-      {/* SEPARATOR */}
-      <View style={styles.divider}>
-        <View style={styles.line} />
+      {/* Divisor */}
+      <View style={styles.dividerContainer}>
+        <View style={styles.divider} />
         <Text style={styles.orText}>Ou</Text>
-        <View style={styles.line} />
+        <View style={styles.divider} />
       </View>
 
-      {/* SOCIAL LOGIN */}
+      {/* Login social */}
       <View style={styles.socialContainer}>
-       
+        <TouchableOpacity style={styles.socialButton}>
+          <Ionicons name="logo-facebook" size={20} color="#3b5998" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialButton}>
+          <Ionicons name="logo-google" size={20} color="#db4437" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialButton}>
+          <Ionicons name="logo-apple" size={20} color="#000" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialButton}>
+          <Ionicons name="logo-windows" size={20} color="#0078d7" />
+        </TouchableOpacity>
       </View>
 
-      <Text style={styles.createAccount}>
-        Ainda não tem conta? <Text style={{ fontWeight: '600' }}>CRIAR CONTA</Text>
+      <Text style={styles.signupText}>
+        Ainda não tem conta?{" "}
+        <Text style={styles.signupLink}>CRIAR CONTA</Text>
       </Text>
 
+      {/* Botão entrar */}
       <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginText}>Entrar</Text>
+        <Text style={styles.loginButtonText}>Entrar</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    flexGrow: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    paddingVertical: 60,
     paddingHorizontal: 24,
-    paddingTop: 80,
   },
-  logoContainer: {
-    flexDirection: 'row',
-    alignSelf: 'center',
+  logo: {
+    fontSize: 72,
+    fontWeight: "bold",
+    color: "#000",
   },
-  logoS: {
-    fontSize: 80,
-    fontWeight: '300',
+  logoSub: {
+    fontSize: 56,
+    fontWeight: "300",
   },
-  logoF: {
-    fontSize: 60,
-    fontWeight: '300',
-    marginLeft: 4,
+  welcome: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginTop: 8,
   },
-  welcomeTitle: {
-    textAlign: 'center',
-    fontSize: 22,
-    fontWeight: '500',
-    marginTop: 10,
-  },
-  welcomeSubtitle: {
-    textAlign: 'center',
-    color: '#444',
+  subtext: {
     fontSize: 13,
-    marginBottom: 30,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 24,
   },
   label: {
-    fontSize: 14,
+    alignSelf: "flex-start",
     marginBottom: 6,
+    fontWeight: "500",
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#000',
-    borderRadius: 6,
-    padding: 10,
+  profileContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginBottom: 16,
   },
-  eyeButton: {
-    position: 'absolute',
-    right: 40,
-    top: 290,
+  profileButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#000",
+    borderRadius: 8,
+    paddingVertical: 10,
+    marginHorizontal: 4,
+    alignItems: "center",
   },
-  forgotPassword: {
-    textAlign: 'right',
-    color: '#000',
+  profileSelected: {
+    backgroundColor: "#000",
+  },
+  profileText: {
+    color: "#000",
+  },
+  profileTextSelected: {
+    color: "#fff",
+  },
+  input: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+  },
+  passwordContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    marginBottom: 4,
+  },
+  inputPassword: {
+    flex: 1,
+    padding: 12,
+  },
+  eyeButton: {
+    paddingHorizontal: 10,
+  },
+  forgotText: {
+    alignSelf: "flex-end",
+    color: "#333",
     fontSize: 12,
     marginBottom: 20,
   },
-  divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
+  dividerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 16,
   },
-  line: {
+  divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: "#ccc",
   },
   orText: {
     marginHorizontal: 10,
-    color: '#555',
+    color: "#666",
   },
   socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  socialIcon: {
-    width: 50,
-    height: 50,
-    resizeMode: 'contain',
-  },
-  createAccount: {
-    textAlign: 'center',
-    fontSize: 13,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
     marginBottom: 20,
   },
-  loginButton: {
-    backgroundColor: '#000',
-    borderRadius: 6,
-    paddingVertical: 14,
-    alignItems: 'center',
+  socialButton: {
+    width: 44,
+    height: 44,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  loginText: {
-    color: '#fff',
+  signupText: {
+    color: "#666",
+    marginBottom: 24,
+  },
+  signupLink: {
+    color: "#000",
+    fontWeight: "600",
+  },
+  loginButton: {
+    backgroundColor: "#000",
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: "center",
+    width: "100%",
+  },
+  loginButtonText: {
+    color: "#fff",
+    fontWeight: "600",
     fontSize: 16,
-    fontWeight: '500',
   },
 });
-
-
